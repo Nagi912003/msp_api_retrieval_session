@@ -1,36 +1,49 @@
-import 'dart:convert';
 
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
-import '../models/cat.dart';
-class FirstPage extends StatelessWidget {
+import '../providers/CatsProvider.dart';
+class FirstPage extends StatefulWidget {
 
+  @override
+  State<FirstPage> createState() => _FirstPageState();
+}
 
-
+class _FirstPageState extends State<FirstPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<CatsProvider>(context,listen: false).getCats();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async{
-            http.Response response=await http.get(Uri.parse('https://cataas.com/api/cats'));
-            List<dynamic> data=  jsonDecode(response.body);
-
-            List <Cat> cats=[];
-            for (var item in data) {
-              cats.add(Cat.fromJson(item));
-            }
-            print(cats[0].id);
-            print(cats[0].tags.toString());
-            print(cats[0].owner);
-            print(cats[0].createdAt);
-            print(cats[0].updatedAt);
-
-          },
-          child: const Text('Click here'),
-        )
-      )
+      body: buidCatsGrid()
+    );
+  }
+  buidCatsGrid(){
+    final cats = Provider.of<CatsProvider>(context).cats;
+    return GridView.builder(
+      padding: const EdgeInsets.all(10.0),
+      itemCount: cats.length,
+      itemBuilder: (ctx, i) => ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: CachedNetworkImage(
+          imageUrl: 'https://cataas.com/c/${cats[i].id}',
+          placeholder: (context, url) => CircularProgressIndicator(),
+          errorWidget: (context, url, error) => Icon(Icons.error),
+          fit: BoxFit.cover,
+        ),
+      ),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 3 / 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+      ),
     );
   }
 }
