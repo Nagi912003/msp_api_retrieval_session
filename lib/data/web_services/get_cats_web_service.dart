@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 class CatsWebServices{
   Future<List<dynamic>> getAllCats() async {
@@ -10,7 +11,9 @@ class CatsWebServices{
 
     }
     catch(e){
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
       return [];
     }
   }

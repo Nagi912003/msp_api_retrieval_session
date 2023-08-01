@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import '../providers/CatsProvider.dart';
 
 class FirstPage extends StatefulWidget {
+  const FirstPage({super.key});
+
   @override
   State<FirstPage> createState() => _FirstPageState();
 }
@@ -22,14 +24,14 @@ class _FirstPageState extends State<FirstPage> {
     final catsLength = Provider.of<CatsProvider>(context).cats.length;
     return Scaffold(
       body: catsLength != 0
-          ? buidCatsGrid()
+          ? RefreshIndicator(child: buildCatsGrid(), onRefresh: () => Provider.of<CatsProvider>(context, listen: false).getCats())
           : const Center(
               child: CircularProgressIndicator(),
             ),
     );
   }
 
-  buidCatsGrid() {
+  buildCatsGrid() {
     final cats = Provider.of<CatsProvider>(context).cats;
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
@@ -45,7 +47,7 @@ class _FirstPageState extends State<FirstPage> {
       ),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 3 / 2,
+        childAspectRatio: 2 / 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),

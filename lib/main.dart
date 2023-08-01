@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/CatsProvider.dart';
-import 'screens/firstpage.dart';
+import 'screens/first_page.dart';
 
 void main(){
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -20,22 +20,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true
         ),
-        home: FirstPage(),
+        home: const FirstPage(),
       ),
-    );
-  }
-  void showSnackbar(BuildContext context){
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Hello'),
-        duration: Duration(seconds: 2),
-        action: SnackBarAction(
-          label: 'Undo',
-          onPressed: (){
-
-          },
-        ),
-      )
     );
   }
 }

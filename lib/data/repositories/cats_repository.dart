@@ -1,6 +1,6 @@
 
 import '../models/cat.dart';
-import '../web_services/getCats.dart';
+import '../web_services/get_cats_web_service.dart';
 
 class CatRepository{
   final CatsWebServices catsWebServices;
