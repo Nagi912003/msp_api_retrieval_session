@@ -6,11 +6,14 @@ import '../data/web_services/getCats.dart';
 
 class CatsProvider extends ChangeNotifier {
   List<Cat> cats = [];
-  final CatRepository _catRepository=CatRepository(catsWebServices: CatsWebServices());
-  List<Cat> getCats()  {
-    _catRepository.getAllCats().then((value) => cats=value);
-    return cats;
+  final CatRepository _catRepository =
+      CatRepository(catsWebServices: CatsWebServices());
+  void getCats() async {
+    await _catRepository
+        .getAllCats()
+        .then((value) {
+          cats = value;
+          notifyListeners();
+        });
   }
-
-
 }

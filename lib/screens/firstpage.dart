@@ -1,12 +1,10 @@
-
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/CatsProvider.dart';
-class FirstPage extends StatefulWidget {
 
+class FirstPage extends StatefulWidget {
   @override
   State<FirstPage> createState() => _FirstPageState();
 }
@@ -16,15 +14,22 @@ class _FirstPageState extends State<FirstPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<CatsProvider>(context,listen: false).getCats();
+    Provider.of<CatsProvider>(context, listen: false).getCats();
   }
+
   @override
   Widget build(BuildContext context) {
+    final catsLength = Provider.of<CatsProvider>(context).cats.length;
     return Scaffold(
-      body: buidCatsGrid()
+      body: catsLength != 0
+          ? buidCatsGrid()
+          : const Center(
+              child: CircularProgressIndicator(),
+            ),
     );
   }
-  buidCatsGrid(){
+
+  buidCatsGrid() {
     final cats = Provider.of<CatsProvider>(context).cats;
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
@@ -33,8 +38,8 @@ class _FirstPageState extends State<FirstPage> {
         borderRadius: BorderRadius.circular(10),
         child: CachedNetworkImage(
           imageUrl: 'https://cataas.com/c/${cats[i].id}',
-          placeholder: (context, url) => CircularProgressIndicator(),
-          errorWidget: (context, url, error) => Icon(Icons.error),
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
           fit: BoxFit.cover,
         ),
       ),

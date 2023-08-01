@@ -24,4 +24,18 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+  void showSnackbar(BuildContext context){
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Hello'),
+        duration: Duration(seconds: 2),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: (){
+
+          },
+        ),
+      )
+    );
+  }
 }
